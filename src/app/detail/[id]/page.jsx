@@ -1,14 +1,13 @@
 // File: src/app/detail/[id]/page.js
 "use client";
-import { useSearchParams } from "next/navigation";
+import { use } from "react";
 import DetailPage from "@/components/DetailPage";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 
-export default function DetailRoutePage() {
-  const params = useSearchParams();
-  const id = params.get("id");
+export default function DetailRoutePage(props) {
+  const { id } = use(props.params);
 
   return (
     <>
