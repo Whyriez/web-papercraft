@@ -1,12 +1,14 @@
-'use client'
+// File: src/app/detail/[id]/page.js
+"use client";
+import { useSearchParams } from "next/navigation";
+import DetailPage from "@/components/DetailPage";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import PapercraftGrid from "@/components/PapercraftGrid";
 import Footer from "@/components/Footer";
-import { useState } from "react";
 
-export default function HomePage() {
-  const [showDetail, setShowDetail] = useState(false);
+export default function DetailRoutePage() {
+  const params = useSearchParams();
+  const id = params.get("id");
 
   return (
     <>
@@ -14,7 +16,7 @@ export default function HomePage() {
       <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row">
         <Sidebar />
         <main className="flex-1">
-          <PapercraftGrid />
+          <DetailPage id={id} />
         </main>
       </div>
       <Footer />

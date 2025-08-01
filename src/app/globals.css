@@ -1,3 +1,4 @@
+@config "../../tailwind.config.js";
 @import "tailwindcss";
 
 :root {
@@ -20,7 +21,37 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fefefe;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' ...");
+}
+
+.paper-texture {
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+.scissors-icon {
+  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.2));
+}
+.difficulty-badge {
+  position: relative;
+  overflow: hidden;
+}
+.difficulty-badge::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px dashed;
+  border-radius: inherit;
+  opacity: 0.5;
+  pointer-events: none;
 }

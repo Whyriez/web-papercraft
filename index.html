@@ -1,740 +1,1406 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PaperWonder - Papercraft Showcase</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500&display=swap"
+      rel="stylesheet"
+    />
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#f8b4d9', // pink-300
-                        secondary: '#90cdf4', // blue-300
-                        accent: '#fbd38d', // orange-300
-                        neutral: '#f7fafc', // gray-100
-                        dark: '#4a5568', // gray-700
-                    },
-                    fontFamily: {
-                        sans: ['Quicksand', 'sans-serif'],
-                        handwritten: ['Caveat', 'cursive'],
-                    },
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#f8b4d9", // pink-300
+              secondary: "#90cdf4", // blue-300
+              accent: "#fbd38d", // orange-300
+              neutral: "#f7fafc", // gray-100
+              dark: "#4a5568", // gray-700
+            },
+            fontFamily: {
+              sans: ["Quicksand", "sans-serif"],
+              handwritten: ["Caveat", "cursive"],
+            },
+          },
+        },
+      };
     </script>
     <style>
-        body {
-            background-color: #fefefe;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f0f4f8' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        .paper-texture {
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-        .scissors-icon {
-            filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.2));
-        }
-        .difficulty-badge {
-            position: relative;
-            overflow: hidden;
-        }
-        .difficulty-badge::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border: 2px dashed;
-            border-radius: inherit;
-            opacity: 0.5;
-            pointer-events: none;
-        }
+      body {
+        background-color: #fefefe;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f0f4f8' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+      .paper-texture {
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      }
+      .scissors-icon {
+        filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.2));
+      }
+      .difficulty-badge {
+        position: relative;
+        overflow: hidden;
+      }
+      .difficulty-badge::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border: 2px dashed;
+        border-radius: inherit;
+        opacity: 0.5;
+        pointer-events: none;
+      }
     </style>
-</head>
-<body class="font-sans text-dark">
+  </head>
+  <body class="font-sans text-dark">
     <!-- Navigation -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <svg class="scissors-icon w-8 h-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z" />
-                    </svg>
-                    <h1 class="text-2xl font-bold text-dark flex items-center">
-                        Paper<span class="text-primary">Wonder</span>
-                        <span class="font-handwritten text-accent ml-1">Crafts</span>
-                    </h1>
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8">
-                    <a href="#" class="font-medium hover:text-primary transition-colors">Home</a>
-                    <a href="#" class="font-medium hover:text-primary transition-colors">New Arrivals</a>
-                    <a href="#" class="font-medium hover:text-primary transition-colors">Popular</a>
-                    <a href="#" class="font-medium hover:text-primary transition-colors">About</a>
-                </div>
-                
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-button" class="md:hidden flex items-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2">
-                <a href="#" class="block py-2 hover:text-primary transition-colors">Home</a>
-                <a href="#" class="block py-2 hover:text-primary transition-colors">New Arrivals</a>
-                <a href="#" class="block py-2 hover:text-primary transition-colors">Popular</a>
-                <a href="#" class="block py-2 hover:text-primary transition-colors">About</a>
-            </div>
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-2">
+            <svg
+              class="scissors-icon w-8 h-8 text-primary"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"
+              />
+            </svg>
+            <h1 class="text-2xl font-bold text-dark flex items-center">
+              Paper<span class="text-primary">Wonder</span>
+              <span class="font-handwritten text-accent ml-1">Crafts</span>
+            </h1>
+          </div>
+
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex space-x-8">
+            <a href="#" class="font-medium hover:text-primary transition-colors"
+              >Home</a
+            >
+            <a href="#" class="font-medium hover:text-primary transition-colors"
+              >New Arrivals</a
+            >
+            <a href="#" class="font-medium hover:text-primary transition-colors"
+              >Popular</a
+            >
+            <a href="#" class="font-medium hover:text-primary transition-colors"
+              >About</a
+            >
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-button" class="md:hidden flex items-center">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
         </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2">
+          <a href="#" class="block py-2 hover:text-primary transition-colors"
+            >Home</a
+          >
+          <a href="#" class="block py-2 hover:text-primary transition-colors"
+            >New Arrivals</a
+          >
+          <a href="#" class="block py-2 hover:text-primary transition-colors"
+            >Popular</a
+          >
+          <a href="#" class="block py-2 hover:text-primary transition-colors"
+            >About</a
+          >
+        </div>
+      </div>
     </nav>
 
     <div class="container mx-auto px-4 py-8 flex flex-col md:flex-row">
-        <!-- Sidebar Categories -->
-        <aside class="w-full md:w-64 mb-8 md:mb-0 md:mr-8">
-            <div class="paper-texture rounded-xl p-5">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                    Categories
-                </h2>
-                <ul class="space-y-2">
-                    <li>
-                        <a href="#" class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors">
-                            <span class="w-8 text-center">🐾</span>
-                            <span>Animals</span>
-                            <span class="ml-auto bg-secondary bg-opacity-20 text-secondary text-xs px-2 py-1 rounded-full">24</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors">
-                            <span class="w-8 text-center">👾</span>
-                            <span>Characters</span>
-                            <span class="ml-auto bg-primary bg-opacity-20 text-primary text-xs px-2 py-1 rounded-full">18</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors">
-                            <span class="w-8 text-center">🚗</span>
-                            <span>Vehicles</span>
-                            <span class="ml-auto bg-accent bg-opacity-20 text-accent text-xs px-2 py-1 rounded-full">12</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors">
-                            <span class="w-8 text-center">🏠</span>
-                            <span>Buildings</span>
-                            <span class="ml-auto bg-green-300 bg-opacity-20 text-green-500 text-xs px-2 py-1 rounded-full">15</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors">
-                            <span class="w-8 text-center">🎄</span>
-                            <span>Seasonal</span>
-                            <span class="ml-auto bg-purple-300 bg-opacity-20 text-purple-500 text-xs px-2 py-1 rounded-full">9</span>
-                        </a>
-                    </li>
-                </ul>
-                
-                <h2 class="text-xl font-bold mt-8 mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    Difficulty
-                </h2>
-                <div class="space-y-2">
-                    <label class="flex items-center p-2 rounded-lg hover:bg-neutral cursor-pointer">
-                        <input type="checkbox" class="form-checkbox h-4 w-4 text-primary rounded">
-                        <span class="ml-2">Beginner</span>
-                    </label>
-                    <label class="flex items-center p-2 rounded-lg hover:bg-neutral cursor-pointer">
-                        <input type="checkbox" class="form-checkbox h-4 w-4 text-primary rounded">
-                        <span class="ml-2">Intermediate</span>
-                    </label>
-                    <label class="flex items-center p-2 rounded-lg hover:bg-neutral cursor-pointer">
-                        <input type="checkbox" class="form-checkbox h-4 w-4 text-primary rounded">
-                        <span class="ml-2">Advanced</span>
-                    </label>
-                </div>
+      <!-- Sidebar Categories -->
+      <aside class="w-full md:w-64 mb-8 md:mb-0 md:mr-8">
+        <div class="paper-texture rounded-xl p-5">
+          <h2 class="text-xl font-bold mb-4 flex items-center">
+            <svg
+              class="w-5 h-5 mr-2 text-accent"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              ></path>
+            </svg>
+            Categories
+          </h2>
+          <ul class="space-y-2">
+            <li>
+              <a
+                href="#"
+                class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors"
+              >
+                <span class="w-8 text-center">🐾</span>
+                <span>Animals</span>
+                <span
+                  class="ml-auto bg-secondary bg-opacity-20 text-secondary text-xs px-2 py-1 rounded-full"
+                  >24</span
+                >
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors"
+              >
+                <span class="w-8 text-center">👾</span>
+                <span>Characters</span>
+                <span
+                  class="ml-auto bg-primary bg-opacity-20 text-primary text-xs px-2 py-1 rounded-full"
+                  >18</span
+                >
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors"
+              >
+                <span class="w-8 text-center">🚗</span>
+                <span>Vehicles</span>
+                <span
+                  class="ml-auto bg-accent bg-opacity-20 text-accent text-xs px-2 py-1 rounded-full"
+                  >12</span
+                >
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors"
+              >
+                <span class="w-8 text-center">🏠</span>
+                <span>Buildings</span>
+                <span
+                  class="ml-auto bg-green-300 bg-opacity-20 text-green-500 text-xs px-2 py-1 rounded-full"
+                  >15</span
+                >
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center p-2 rounded-lg hover:bg-neutral transition-colors"
+              >
+                <span class="w-8 text-center">🎄</span>
+                <span>Seasonal</span>
+                <span
+                  class="ml-auto bg-purple-300 bg-opacity-20 text-purple-500 text-xs px-2 py-1 rounded-full"
+                  >9</span
+                >
+              </a>
+            </li>
+          </ul>
+
+          <h2 class="text-xl font-bold mt-8 mb-4 flex items-center">
+            <svg
+              class="w-5 h-5 mr-2 text-accent"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              ></path>
+            </svg>
+            Difficulty
+          </h2>
+          <div class="space-y-2">
+            <label
+              class="flex items-center p-2 rounded-lg hover:bg-neutral cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-primary rounded"
+              />
+              <span class="ml-2">Beginner</span>
+            </label>
+            <label
+              class="flex items-center p-2 rounded-lg hover:bg-neutral cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-primary rounded"
+              />
+              <span class="ml-2">Intermediate</span>
+            </label>
+            <label
+              class="flex items-center p-2 rounded-lg hover:bg-neutral cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                class="form-checkbox h-4 w-4 text-primary rounded"
+              />
+              <span class="ml-2">Advanced</span>
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1">
+        <!-- Homepage View -->
+        <div id="homepage" class="block">
+          <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold">Featured Papercrafts</h1>
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="Search crafts..."
+                class="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              <svg
+                class="w-5 h-5 text-gray-400 absolute left-3 top-2.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
             </div>
-        </aside>
+          </div>
 
-        <!-- Main Content -->
-        <main class="flex-1">
-            <!-- Homepage View -->
-            <div id="homepage" class="block">
-                <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-3xl font-bold">Featured Papercrafts</h1>
-                    <div class="relative">
-                        <input type="text" placeholder="Search crafts..." class="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary">
-                        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </div>
+          <!-- Grid of Papercraft Models -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Papercraft Card 1 -->
+            <div
+              class="card paper-texture rounded-xl overflow-hidden cursor-pointer"
+              onclick="showDetailPage()"
+            >
+              <div class="relative h-48 bg-neutral overflow-hidden">
+                <svg
+                  class="absolute inset-0 w-full h-full text-primary"
+                  viewBox="0 0 200 200"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M37.9,-48.2C51.1,-34.3,65.2,-24,69.2,-10.2C73.2,3.6,67.1,20.9,56.6,33.5C46.1,46.1,31.1,54,14.1,61.5C-2.9,69,-21.9,76,-35.5,70.1C-49.1,64.2,-57.3,45.4,-63.3,26.8C-69.3,8.2,-73,-10.2,-67.8,-26.1C-62.5,-42,-48.3,-55.4,-33.1,-68.5C-17.9,-81.6,-1.7,-94.4,10.5,-87.9C22.7,-81.4,24.8,-62.1,37.9,-48.2Z"
+                    transform="translate(100 100)"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <svg
+                    class="w-32 h-32 text-white"
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path fill="currentColor" d="M50,15 L85,85 L15,85 Z" />
+                    <circle cx="50" cy="45" r="10" fill="currentColor" />
+                  </svg>
                 </div>
-
-                <!-- Grid of Papercraft Models -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Papercraft Card 1 -->
-                    <div class="card paper-texture rounded-xl overflow-hidden cursor-pointer" onclick="showDetailPage()">
-                        <div class="relative h-48 bg-neutral overflow-hidden">
-                            <svg class="absolute inset-0 w-full h-full text-primary" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="currentColor" d="M37.9,-48.2C51.1,-34.3,65.2,-24,69.2,-10.2C73.2,3.6,67.1,20.9,56.6,33.5C46.1,46.1,31.1,54,14.1,61.5C-2.9,69,-21.9,76,-35.5,70.1C-49.1,64.2,-57.3,45.4,-63.3,26.8C-69.3,8.2,-73,-10.2,-67.8,-26.1C-62.5,-42,-48.3,-55.4,-33.1,-68.5C-17.9,-81.6,-1.7,-94.4,10.5,-87.9C22.7,-81.4,24.8,-62.1,37.9,-48.2Z" transform="translate(100 100)" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <svg class="w-32 h-32 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="currentColor" d="M50,15 L85,85 L15,85 Z" />
-                                    <circle cx="50" cy="45" r="10" fill="currentColor" />
-                                </svg>
-                            </div>
-                            <div class="absolute top-2 right-2">
-                                <span class="difficulty-badge bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full border border-green-200">Beginner</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-1">Geometric Fox</h3>
-                            <p class="text-sm text-gray-600 mb-3">A simple yet elegant fox design with clean geometric lines.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs bg-neutral rounded-full px-3 py-1">Animals</span>
-                                <span class="font-handwritten text-accent">15 min</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Papercraft Card 2 -->
-                    <div class="card paper-texture rounded-xl overflow-hidden">
-                        <div class="relative h-48 bg-neutral overflow-hidden">
-                            <svg class="absolute inset-0 w-full h-full text-secondary" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="currentColor" d="M47.7,-57.2C59.5,-45.8,65.8,-28.6,68.2,-11.1C70.6,6.4,69.1,24.2,60.3,37.3C51.6,50.3,35.6,58.6,18.9,63.3C2.2,68,-15.2,69.1,-31.8,64C-48.5,58.8,-64.3,47.4,-71.1,31.7C-77.9,16,-75.7,-4,-67.8,-20.8C-59.8,-37.6,-46.1,-51.1,-31.5,-61.5C-16.9,-71.9,-1.4,-79.2,13.2,-76.3C27.8,-73.4,35.9,-68.5,47.7,-57.2Z" transform="translate(100 100)" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <svg class="w-32 h-32 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="20" y="20" width="60" height="60" fill="currentColor" />
-                                    <circle cx="40" cy="40" r="5" fill="#90cdf4" />
-                                    <circle cx="60" cy="40" r="5" fill="#90cdf4" />
-                                    <path d="M40,60 Q50,70 60,60" stroke="#90cdf4" stroke-width="3" fill="none" />
-                                </svg>
-                            </div>
-                            <div class="absolute top-2 right-2">
-                                <span class="difficulty-badge bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full border border-yellow-200">Intermediate</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-1">Cube Robot</h3>
-                            <p class="text-sm text-gray-600 mb-3">A charming robot with movable arms and a friendly expression.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs bg-neutral rounded-full px-3 py-1">Characters</span>
-                                <span class="font-handwritten text-accent">25 min</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Papercraft Card 3 -->
-                    <div class="card paper-texture rounded-xl overflow-hidden">
-                        <div class="relative h-48 bg-neutral overflow-hidden">
-                            <svg class="absolute inset-0 w-full h-full text-accent" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="currentColor" d="M39.2,-46.1C52.9,-39.2,67.5,-30.5,71.5,-18.4C75.4,-6.3,68.8,9.2,60.2,21.5C51.7,33.8,41.2,42.9,29.3,51.5C17.5,60.1,4.4,68.1,-8.6,68.7C-21.6,69.3,-34.5,62.4,-45.5,52.4C-56.5,42.3,-65.5,29.1,-69.8,14C-74.1,-1.1,-73.7,-18.1,-65.8,-30.4C-57.9,-42.7,-42.5,-50.3,-28.5,-57.1C-14.5,-63.9,-1.8,-69.9,9.5,-67.7C20.8,-65.5,25.5,-53,39.2,-46.1Z" transform="translate(100 100)" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <svg class="w-32 h-32 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="currentColor" d="M20,80 L50,20 L80,80 Z" />
-                                    <rect x="35" y="50" width="30" height="30" fill="currentColor" />
-                                    <circle cx="50" cy="40" r="8" fill="#fbd38d" />
-                                </svg>
-                            </div>
-                            <div class="absolute top-2 right-2">
-                                <span class="difficulty-badge bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full border border-red-200">Advanced</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-1">Tiny House</h3>
-                            <p class="text-sm text-gray-600 mb-3">A detailed miniature cottage with opening doors and windows.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs bg-neutral rounded-full px-3 py-1">Buildings</span>
-                                <span class="font-handwritten text-accent">40 min</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Papercraft Card 4 -->
-                    <div class="card paper-texture rounded-xl overflow-hidden">
-                        <div class="relative h-48 bg-neutral overflow-hidden">
-                            <svg class="absolute inset-0 w-full h-full text-green-300" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="currentColor" d="M45.3,-51.2C59.4,-41.7,71.7,-28.5,76.3,-12.7C80.9,3.2,77.8,21.7,68.1,35.8C58.4,49.9,42.2,59.5,25.3,65.5C8.4,71.4,-9.1,73.7,-24.8,68.9C-40.5,64.2,-54.3,52.4,-62.9,37.5C-71.5,22.6,-74.8,4.6,-71.2,-11.8C-67.6,-28.2,-57.1,-43,-43.6,-52.6C-30.1,-62.2,-13.6,-66.6,1.2,-68C16,-69.4,31.2,-60.7,45.3,-51.2Z" transform="translate(100 100)" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <svg class="w-32 h-32 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="30" fill="currentColor" />
-                                    <circle cx="35" cy="40" r="5" fill="#68d391" />
-                                    <circle cx="65" cy="40" r="5" fill="#68d391" />
-                                    <path d="M35,60 Q50,70 65,60" stroke="#68d391" stroke-width="3" fill="none" />
-                                </svg>
-                            </div>
-                            <div class="absolute top-2 right-2">
-                                <span class="difficulty-badge bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full border border-green-200">Beginner</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-1">Happy Balloon</h3>
-                            <p class="text-sm text-gray-600 mb-3">A cheerful balloon character that stands on its own.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs bg-neutral rounded-full px-3 py-1">Characters</span>
-                                <span class="font-handwritten text-accent">10 min</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Papercraft Card 5 -->
-                    <div class="card paper-texture rounded-xl overflow-hidden">
-                        <div class="relative h-48 bg-neutral overflow-hidden">
-                            <svg class="absolute inset-0 w-full h-full text-purple-300" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="currentColor" d="M54.2,-46.1C68.6,-33.2,77.2,-11.5,73.4,7.3C69.6,26.1,53.3,42,35.3,53.3C17.3,64.6,-2.3,71.3,-23.1,67.7C-43.9,64.1,-65.8,50.2,-74.9,29.8C-84,9.5,-80.2,-17.3,-67.6,-35.8C-55,-54.3,-33.6,-64.5,-12.2,-65.2C9.2,-65.9,39.8,-58.9,54.2,-46.1Z" transform="translate(100 100)" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <svg class="w-32 h-32 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="20" y="30" width="60" height="40" fill="currentColor" />
-                                    <polygon points="20,30 50,10 80,30" fill="currentColor" />
-                                    <rect x="40" y="50" width="20" height="20" fill="#d6bcfa" />
-                                </svg>
-                            </div>
-                            <div class="absolute top-2 right-2">
-                                <span class="difficulty-badge bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full border border-yellow-200">Intermediate</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-1">Cozy Cottage</h3>
-                            <p class="text-sm text-gray-600 mb-3">A sweet little house with a pitched roof and cute details.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs bg-neutral rounded-full px-3 py-1">Buildings</span>
-                                <span class="font-handwritten text-accent">30 min</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Papercraft Card 6 -->
-                    <div class="card paper-texture rounded-xl overflow-hidden">
-                        <div class="relative h-48 bg-neutral overflow-hidden">
-                            <svg class="absolute inset-0 w-full h-full text-primary" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="currentColor" d="M47.4,-57.2C59.2,-44.7,65.2,-28.5,68.1,-11.7C71,5.1,70.8,22.6,62.4,35.3C54,48,37.4,56,20.3,63.1C3.3,70.2,-14.2,76.3,-30.4,72.6C-46.6,68.9,-61.5,55.3,-69.9,38.5C-78.3,21.7,-80.2,1.7,-75.6,-16.3C-71,-34.3,-59.9,-50.3,-45.3,-62.1C-30.7,-73.9,-12.6,-81.5,2.9,-79.9C18.4,-78.3,35.6,-69.7,47.4,-57.2Z" transform="translate(100 100)" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <svg class="w-32 h-32 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="currentColor" d="M30,70 L30,40 L70,40 L70,70 Z" />
-                                    <circle cx="50" cy="30" r="15" fill="currentColor" />
-                                    <rect x="45" y="70" width="10" height="10" fill="#f8b4d9" />
-                                    <circle cx="40" cy="50" r="5" fill="#f8b4d9" />
-                                    <circle cx="60" cy="50" r="5" fill="#f8b4d9" />
-                                </svg>
-                            </div>
-                            <div class="absolute top-2 right-2">
-                                <span class="difficulty-badge bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full border border-green-200">Beginner</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-1">Friendly Robot</h3>
-                            <p class="text-sm text-gray-600 mb-3">A simple robot design perfect for beginners and kids.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs bg-neutral rounded-full px-3 py-1">Characters</span>
-                                <span class="font-handwritten text-accent">15 min</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="absolute top-2 right-2">
+                  <span
+                    class="difficulty-badge bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full border border-green-200"
+                    >Beginner</span
+                  >
                 </div>
-
-                <!-- Pagination -->
-                <div class="mt-10 flex justify-center">
-                    <nav class="inline-flex rounded-md shadow-sm">
-                        <a href="#" class="py-2 px-4 border border-gray-200 rounded-l-md bg-white hover:bg-neutral">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="py-2 px-4 border-t border-b border-gray-200 bg-primary text-white">1</a>
-                        <a href="#" class="py-2 px-4 border-t border-b border-gray-200 bg-white hover:bg-neutral">2</a>
-                        <a href="#" class="py-2 px-4 border-t border-b border-gray-200 bg-white hover:bg-neutral">3</a>
-                        <a href="#" class="py-2 px-4 border border-gray-200 rounded-r-md bg-white hover:bg-neutral">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </nav>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1">Geometric Fox</h3>
+                <p class="text-sm text-gray-600 mb-3">
+                  A simple yet elegant fox design with clean geometric lines.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-xs bg-neutral rounded-full px-3 py-1"
+                    >Animals</span
+                  >
+                  <span class="font-handwritten text-accent">15 min</span>
                 </div>
+              </div>
             </div>
 
-            <!-- Detail Page View -->
-            <div id="detailPage" class="hidden">
-                <button onclick="showHomepage()" class="mb-6 flex items-center text-dark hover:text-primary transition-colors">
-                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                    </svg>
-                    Back to all papercrafts
-                </button>
-
-                <div class="paper-texture rounded-xl p-6">
-                    <div class="flex flex-col lg:flex-row">
-                        <!-- Left: Preview Image -->
-                        <div class="lg:w-1/2 mb-6 lg:mb-0 lg:pr-6">
-                            <div class="relative rounded-lg overflow-hidden bg-neutral h-80 flex items-center justify-center">
-                                <svg class="absolute inset-0 w-full h-full text-primary" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="currentColor" d="M37.9,-48.2C51.1,-34.3,65.2,-24,69.2,-10.2C73.2,3.6,67.1,20.9,56.6,33.5C46.1,46.1,31.1,54,14.1,61.5C-2.9,69,-21.9,76,-35.5,70.1C-49.1,64.2,-57.3,45.4,-63.3,26.8C-69.3,8.2,-73,-10.2,-67.8,-26.1C-62.5,-42,-48.3,-55.4,-33.1,-68.5C-17.9,-81.6,-1.7,-94.4,10.5,-87.9C22.7,-81.4,24.8,-62.1,37.9,-48.2Z" transform="translate(100 100)" />
-                                </svg>
-                                <div class="relative z-10 w-48 h-48">
-                                    <svg class="w-full h-full text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill="currentColor" d="M50,15 L85,85 L15,85 Z" />
-                                        <circle cx="50" cy="45" r="10" fill="currentColor" />
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 grid grid-cols-4 gap-2">
-                                <div class="rounded bg-neutral p-2 cursor-pointer hover:bg-primary hover:bg-opacity-10 transition-colors">
-                                    <div class="aspect-square flex items-center justify-center">
-                                        <svg class="w-full h-full text-primary" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill="currentColor" d="M50,15 L85,85 L15,85 Z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="rounded bg-neutral p-2 cursor-pointer hover:bg-primary hover:bg-opacity-10 transition-colors">
-                                    <div class="aspect-square flex items-center justify-center">
-                                        <svg class="w-full h-full text-primary" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="50" cy="50" r="35" fill="currentColor" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="rounded bg-neutral p-2 cursor-pointer hover:bg-primary hover:bg-opacity-10 transition-colors">
-                                    <div class="aspect-square flex items-center justify-center">
-                                        <svg class="w-full h-full text-primary" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="15" y="15" width="70" height="70" fill="currentColor" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="rounded bg-neutral p-2 cursor-pointer hover:bg-primary hover:bg-opacity-10 transition-colors">
-                                    <div class="aspect-square flex items-center justify-center">
-                                        <svg class="w-full h-full text-primary" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                            <polygon points="50,15 85,85 15,85" fill="currentColor" />
-                                            <circle cx="50" cy="45" r="10" fill="white" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Right: Details -->
-                        <div class="lg:w-1/2">
-                            <div class="flex justify-between items-start">
-                                <h1 class="text-3xl font-bold">Geometric Fox</h1>
-                                <span class="difficulty-badge bg-green-100 text-green-600 px-3 py-1 rounded-full border border-green-200">Beginner</span>
-                            </div>
-                            
-                            <p class="text-gray-600 mt-2">A simple yet elegant fox design with clean geometric lines. Perfect for beginners and a great decoration for any desk or shelf.</p>
-                            
-                            <div class="mt-6 grid grid-cols-2 gap-4">
-                                <div class="bg-neutral rounded-lg p-3">
-                                    <span class="text-sm text-gray-500">Dimensions</span>
-                                    <p class="font-medium">15 x 10 x 12 cm</p>
-                                </div>
-                                <div class="bg-neutral rounded-lg p-3">
-                                    <span class="text-sm text-gray-500">Assembly Time</span>
-                                    <p class="font-medium">15 minutes</p>
-                                </div>
-                                <div class="bg-neutral rounded-lg p-3">
-                                    <span class="text-sm text-gray-500">Paper Type</span>
-                                    <p class="font-medium">160-200 gsm</p>
-                                </div>
-                                <div class="bg-neutral rounded-lg p-3">
-                                    <span class="text-sm text-gray-500">Pages</span>
-                                    <p class="font-medium">2 sheets</p>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-6">
-                                <button class="w-full bg-primary hover:bg-pink-400 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                                    </svg>
-                                    Download PDF Template
-                                </button>
-                                
-                                <div class="flex mt-3 space-x-3">
-                                    <button class="flex-1 border border-gray-200 hover:bg-neutral font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                                        <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                        </svg>
-                                        Save
-                                    </button>
-                                    <button class="flex-1 border border-gray-200 hover:bg-neutral font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
-                                        <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
-                                        </svg>
-                                        Share
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Assembly Instructions -->
-                    <div class="mt-10">
-                        <h2 class="text-2xl font-bold mb-4">Assembly Instructions</h2>
-                        
-                        <div class="bg-neutral rounded-lg p-6">
-                            <ol class="space-y-6">
-                                <li class="flex">
-                                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">1</div>
-                                    <div class="ml-4">
-                                        <h3 class="font-bold">Print the template</h3>
-                                        <p class="text-gray-600 mt-1">Print the template on cardstock paper (160-200 gsm). Regular printer paper will work but the model will be less sturdy.</p>
-                                    </div>
-                                </li>
-                                
-                                <li class="flex">
-                                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">2</div>
-                                    <div class="ml-4">
-                                        <h3 class="font-bold">Cut along solid lines</h3>
-                                        <p class="text-gray-600 mt-1">Using scissors or a craft knife, carefully cut along all solid lines of the template.</p>
-                                    </div>
-                                </li>
-                                
-                                <li class="flex">
-                                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">3</div>
-                                    <div class="ml-4">
-                                        <h3 class="font-bold">Score along dotted lines</h3>
-                                        <p class="text-gray-600 mt-1">Using a ruler and the back of a craft knife (or a scoring tool), score along all dotted lines to make folding easier and cleaner.</p>
-                                    </div>
-                                </li>
-                                
-                                <li class="flex">
-                                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">4</div>
-                                    <div class="ml-4">
-                                        <h3 class="font-bold">Fold along scored lines</h3>
-                                        <p class="text-gray-600 mt-1">Fold all scored lines, making sure to create sharp creases. Mountain folds go up, valley folds go down.</p>
-                                    </div>
-                                </li>
-                                
-                                <li class="flex">
-                                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">5</div>
-                                    <div class="ml-4">
-                                        <h3 class="font-bold">Apply glue to tabs</h3>
-                                        <p class="text-gray-600 mt-1">Apply a small amount of glue to each tab. We recommend using a glue stick or craft glue.</p>
-                                    </div>
-                                </li>
-                                
-                                <li class="flex">
-                                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">6</div>
-                                    <div class="ml-4">
-                                        <h3 class="font-bold">Assemble the model</h3>
-                                        <p class="text-gray-600 mt-1">Start by attaching the head pieces, then work your way down to the body. Hold each piece in place for a few seconds until the glue sets.</p>
-                                    </div>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <!-- Related Models -->
-                    <div class="mt-10">
-                        <h2 class="text-2xl font-bold mb-4">You might also like</h2>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div class="card paper-texture rounded-lg overflow-hidden">
-                                <div class="h-32 bg-neutral relative overflow-hidden">
-                                    <svg class="absolute inset-0 w-full h-full text-secondary" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill="currentColor" d="M47.7,-57.2C59.5,-45.8,65.8,-28.6,68.2,-11.1C70.6,6.4,69.1,24.2,60.3,37.3C51.6,50.3,35.6,58.6,18.9,63.3C2.2,68,-15.2,69.1,-31.8,64C-48.5,58.8,-64.3,47.4,-71.1,31.7C-77.9,16,-75.7,-4,-67.8,-20.8C-59.8,-37.6,-46.1,-51.1,-31.5,-61.5C-16.9,-71.9,-1.4,-79.2,13.2,-76.3C27.8,-73.4,35.9,-68.5,47.7,-57.2Z" transform="translate(100 100)" />
-                                    </svg>
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <svg class="w-16 h-16 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="50" cy="50" r="30" fill="currentColor" />
-                                            <circle cx="35" cy="40" r="5" fill="#90cdf4" />
-                                            <circle cx="65" cy="40" r="5" fill="#90cdf4" />
-                                            <path d="M35,60 Q50,70 65,60" stroke="#90cdf4" stroke-width="3" fill="none" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="p-3">
-                                    <h3 class="font-bold">Geometric Wolf</h3>
-                                    <div class="flex justify-between items-center mt-1">
-                                        <span class="text-xs bg-neutral rounded-full px-2 py-0.5">Animals</span>
-                                        <span class="text-xs text-green-600">Beginner</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card paper-texture rounded-lg overflow-hidden">
-                                <div class="h-32 bg-neutral relative overflow-hidden">
-                                    <svg class="absolute inset-0 w-full h-full text-accent" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill="currentColor" d="M39.2,-46.1C52.9,-39.2,67.5,-30.5,71.5,-18.4C75.4,-6.3,68.8,9.2,60.2,21.5C51.7,33.8,41.2,42.9,29.3,51.5C17.5,60.1,4.4,68.1,-8.6,68.7C-21.6,69.3,-34.5,62.4,-45.5,52.4C-56.5,42.3,-65.5,29.1,-69.8,14C-74.1,-1.1,-73.7,-18.1,-65.8,-30.4C-57.9,-42.7,-42.5,-50.3,-28.5,-57.1C-14.5,-63.9,-1.8,-69.9,9.5,-67.7C20.8,-65.5,25.5,-53,39.2,-46.1Z" transform="translate(100 100)" />
-                                    </svg>
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <svg class="w-16 h-16 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill="currentColor" d="M30,30 L70,30 L70,70 L30,70 Z" />
-                                            <circle cx="40" cy="40" r="5" fill="#fbd38d" />
-                                            <circle cx="60" cy="40" r="5" fill="#fbd38d" />
-                                            <rect x="40" y="50" width="20" height="5" fill="#fbd38d" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="p-3">
-                                    <h3 class="font-bold">Cube Cat</h3>
-                                    <div class="flex justify-between items-center mt-1">
-                                        <span class="text-xs bg-neutral rounded-full px-2 py-0.5">Animals</span>
-                                        <span class="text-xs text-green-600">Beginner</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card paper-texture rounded-lg overflow-hidden">
-                                <div class="h-32 bg-neutral relative overflow-hidden">
-                                    <svg class="absolute inset-0 w-full h-full text-primary" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill="currentColor" d="M45.3,-51.2C59.4,-41.7,71.7,-28.5,76.3,-12.7C80.9,3.2,77.8,21.7,68.1,35.8C58.4,49.9,42.2,59.5,25.3,65.5C8.4,71.4,-9.1,73.7,-24.8,68.9C-40.5,64.2,-54.3,52.4,-62.9,37.5C-71.5,22.6,-74.8,4.6,-71.2,-11.8C-67.6,-28.2,-57.1,-43,-43.6,-52.6C-30.1,-62.2,-13.6,-66.6,1.2,-68C16,-69.4,31.2,-60.7,45.3,-51.2Z" transform="translate(100 100)" />
-                                    </svg>
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <svg class="w-16 h-16 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                            <polygon points="50,20 80,60 20,60" fill="currentColor" />
-                                            <polygon points="20,60 80,60 50,80" fill="currentColor" />
-                                            <circle cx="50" cy="40" r="5" fill="#f8b4d9" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="p-3">
-                                    <h3 class="font-bold">Origami Bird</h3>
-                                    <div class="flex justify-between items-center mt-1">
-                                        <span class="text-xs bg-neutral rounded-full px-2 py-0.5">Animals</span>
-                                        <span class="text-xs text-green-600">Beginner</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Papercraft Card 2 -->
+            <div class="card paper-texture rounded-xl overflow-hidden">
+              <div class="relative h-48 bg-neutral overflow-hidden">
+                <svg
+                  class="absolute inset-0 w-full h-full text-secondary"
+                  viewBox="0 0 200 200"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M47.7,-57.2C59.5,-45.8,65.8,-28.6,68.2,-11.1C70.6,6.4,69.1,24.2,60.3,37.3C51.6,50.3,35.6,58.6,18.9,63.3C2.2,68,-15.2,69.1,-31.8,64C-48.5,58.8,-64.3,47.4,-71.1,31.7C-77.9,16,-75.7,-4,-67.8,-20.8C-59.8,-37.6,-46.1,-51.1,-31.5,-61.5C-16.9,-71.9,-1.4,-79.2,13.2,-76.3C27.8,-73.4,35.9,-68.5,47.7,-57.2Z"
+                    transform="translate(100 100)"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <svg
+                    class="w-32 h-32 text-white"
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="20"
+                      y="20"
+                      width="60"
+                      height="60"
+                      fill="currentColor"
+                    />
+                    <circle cx="40" cy="40" r="5" fill="#90cdf4" />
+                    <circle cx="60" cy="40" r="5" fill="#90cdf4" />
+                    <path
+                      d="M40,60 Q50,70 60,60"
+                      stroke="#90cdf4"
+                      stroke-width="3"
+                      fill="none"
+                    />
+                  </svg>
                 </div>
+                <div class="absolute top-2 right-2">
+                  <span
+                    class="difficulty-badge bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full border border-yellow-200"
+                    >Intermediate</span
+                  >
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1">Cube Robot</h3>
+                <p class="text-sm text-gray-600 mb-3">
+                  A charming robot with movable arms and a friendly expression.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-xs bg-neutral rounded-full px-3 py-1"
+                    >Characters</span
+                  >
+                  <span class="font-handwritten text-accent">25 min</span>
+                </div>
+              </div>
             </div>
-        </main>
+
+            <!-- Papercraft Card 3 -->
+            <div class="card paper-texture rounded-xl overflow-hidden">
+              <div class="relative h-48 bg-neutral overflow-hidden">
+                <svg
+                  class="absolute inset-0 w-full h-full text-accent"
+                  viewBox="0 0 200 200"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M39.2,-46.1C52.9,-39.2,67.5,-30.5,71.5,-18.4C75.4,-6.3,68.8,9.2,60.2,21.5C51.7,33.8,41.2,42.9,29.3,51.5C17.5,60.1,4.4,68.1,-8.6,68.7C-21.6,69.3,-34.5,62.4,-45.5,52.4C-56.5,42.3,-65.5,29.1,-69.8,14C-74.1,-1.1,-73.7,-18.1,-65.8,-30.4C-57.9,-42.7,-42.5,-50.3,-28.5,-57.1C-14.5,-63.9,-1.8,-69.9,9.5,-67.7C20.8,-65.5,25.5,-53,39.2,-46.1Z"
+                    transform="translate(100 100)"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <svg
+                    class="w-32 h-32 text-white"
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path fill="currentColor" d="M20,80 L50,20 L80,80 Z" />
+                    <rect
+                      x="35"
+                      y="50"
+                      width="30"
+                      height="30"
+                      fill="currentColor"
+                    />
+                    <circle cx="50" cy="40" r="8" fill="#fbd38d" />
+                  </svg>
+                </div>
+                <div class="absolute top-2 right-2">
+                  <span
+                    class="difficulty-badge bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full border border-red-200"
+                    >Advanced</span
+                  >
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1">Tiny House</h3>
+                <p class="text-sm text-gray-600 mb-3">
+                  A detailed miniature cottage with opening doors and windows.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-xs bg-neutral rounded-full px-3 py-1"
+                    >Buildings</span
+                  >
+                  <span class="font-handwritten text-accent">40 min</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Papercraft Card 4 -->
+            <div class="card paper-texture rounded-xl overflow-hidden">
+              <div class="relative h-48 bg-neutral overflow-hidden">
+                <svg
+                  class="absolute inset-0 w-full h-full text-green-300"
+                  viewBox="0 0 200 200"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M45.3,-51.2C59.4,-41.7,71.7,-28.5,76.3,-12.7C80.9,3.2,77.8,21.7,68.1,35.8C58.4,49.9,42.2,59.5,25.3,65.5C8.4,71.4,-9.1,73.7,-24.8,68.9C-40.5,64.2,-54.3,52.4,-62.9,37.5C-71.5,22.6,-74.8,4.6,-71.2,-11.8C-67.6,-28.2,-57.1,-43,-43.6,-52.6C-30.1,-62.2,-13.6,-66.6,1.2,-68C16,-69.4,31.2,-60.7,45.3,-51.2Z"
+                    transform="translate(100 100)"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <svg
+                    class="w-32 h-32 text-white"
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle cx="50" cy="50" r="30" fill="currentColor" />
+                    <circle cx="35" cy="40" r="5" fill="#68d391" />
+                    <circle cx="65" cy="40" r="5" fill="#68d391" />
+                    <path
+                      d="M35,60 Q50,70 65,60"
+                      stroke="#68d391"
+                      stroke-width="3"
+                      fill="none"
+                    />
+                  </svg>
+                </div>
+                <div class="absolute top-2 right-2">
+                  <span
+                    class="difficulty-badge bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full border border-green-200"
+                    >Beginner</span
+                  >
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1">Happy Balloon</h3>
+                <p class="text-sm text-gray-600 mb-3">
+                  A cheerful balloon character that stands on its own.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-xs bg-neutral rounded-full px-3 py-1"
+                    >Characters</span
+                  >
+                  <span class="font-handwritten text-accent">10 min</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Papercraft Card 5 -->
+            <div class="card paper-texture rounded-xl overflow-hidden">
+              <div class="relative h-48 bg-neutral overflow-hidden">
+                <svg
+                  class="absolute inset-0 w-full h-full text-purple-300"
+                  viewBox="0 0 200 200"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M54.2,-46.1C68.6,-33.2,77.2,-11.5,73.4,7.3C69.6,26.1,53.3,42,35.3,53.3C17.3,64.6,-2.3,71.3,-23.1,67.7C-43.9,64.1,-65.8,50.2,-74.9,29.8C-84,9.5,-80.2,-17.3,-67.6,-35.8C-55,-54.3,-33.6,-64.5,-12.2,-65.2C9.2,-65.9,39.8,-58.9,54.2,-46.1Z"
+                    transform="translate(100 100)"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <svg
+                    class="w-32 h-32 text-white"
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="20"
+                      y="30"
+                      width="60"
+                      height="40"
+                      fill="currentColor"
+                    />
+                    <polygon points="20,30 50,10 80,30" fill="currentColor" />
+                    <rect x="40" y="50" width="20" height="20" fill="#d6bcfa" />
+                  </svg>
+                </div>
+                <div class="absolute top-2 right-2">
+                  <span
+                    class="difficulty-badge bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full border border-yellow-200"
+                    >Intermediate</span
+                  >
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1">Cozy Cottage</h3>
+                <p class="text-sm text-gray-600 mb-3">
+                  A sweet little house with a pitched roof and cute details.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-xs bg-neutral rounded-full px-3 py-1"
+                    >Buildings</span
+                  >
+                  <span class="font-handwritten text-accent">30 min</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Papercraft Card 6 -->
+            <div class="card paper-texture rounded-xl overflow-hidden">
+              <div class="relative h-48 bg-neutral overflow-hidden">
+                <svg
+                  class="absolute inset-0 w-full h-full text-primary"
+                  viewBox="0 0 200 200"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M47.4,-57.2C59.2,-44.7,65.2,-28.5,68.1,-11.7C71,5.1,70.8,22.6,62.4,35.3C54,48,37.4,56,20.3,63.1C3.3,70.2,-14.2,76.3,-30.4,72.6C-46.6,68.9,-61.5,55.3,-69.9,38.5C-78.3,21.7,-80.2,1.7,-75.6,-16.3C-71,-34.3,-59.9,-50.3,-45.3,-62.1C-30.7,-73.9,-12.6,-81.5,2.9,-79.9C18.4,-78.3,35.6,-69.7,47.4,-57.2Z"
+                    transform="translate(100 100)"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <svg
+                    class="w-32 h-32 text-white"
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M30,70 L30,40 L70,40 L70,70 Z"
+                    />
+                    <circle cx="50" cy="30" r="15" fill="currentColor" />
+                    <rect x="45" y="70" width="10" height="10" fill="#f8b4d9" />
+                    <circle cx="40" cy="50" r="5" fill="#f8b4d9" />
+                    <circle cx="60" cy="50" r="5" fill="#f8b4d9" />
+                  </svg>
+                </div>
+                <div class="absolute top-2 right-2">
+                  <span
+                    class="difficulty-badge bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full border border-green-200"
+                    >Beginner</span
+                  >
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1">Friendly Robot</h3>
+                <p class="text-sm text-gray-600 mb-3">
+                  A simple robot design perfect for beginners and kids.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-xs bg-neutral rounded-full px-3 py-1"
+                    >Characters</span
+                  >
+                  <span class="font-handwritten text-accent">15 min</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="mt-10 flex justify-center">
+            <nav class="inline-flex rounded-md shadow-sm">
+              <a
+                href="#"
+                class="py-2 px-4 border border-gray-200 rounded-l-md bg-white hover:bg-neutral"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 19l-7-7 7-7"
+                  ></path>
+                </svg>
+              </a>
+              <a
+                href="#"
+                class="py-2 px-4 border-t border-b border-gray-200 bg-primary text-white"
+                >1</a
+              >
+              <a
+                href="#"
+                class="py-2 px-4 border-t border-b border-gray-200 bg-white hover:bg-neutral"
+                >2</a
+              >
+              <a
+                href="#"
+                class="py-2 px-4 border-t border-b border-gray-200 bg-white hover:bg-neutral"
+                >3</a
+              >
+              <a
+                href="#"
+                class="py-2 px-4 border border-gray-200 rounded-r-md bg-white hover:bg-neutral"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </a>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Detail Page View -->
+        <div id="detailPage" class="hidden">
+          <button
+            onclick="showHomepage()"
+            class="mb-6 flex items-center text-dark hover:text-primary transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              ></path>
+            </svg>
+            Back to all papercrafts
+          </button>
+
+          <div class="paper-texture rounded-xl p-6">
+            <div class="flex flex-col lg:flex-row">
+              <!-- Left: Preview Image -->
+              <div class="lg:w-1/2 mb-6 lg:mb-0 lg:pr-6">
+                <div
+                  class="relative rounded-lg overflow-hidden bg-neutral h-80 flex items-center justify-center"
+                >
+                  <svg
+                    class="absolute inset-0 w-full h-full text-primary"
+                    viewBox="0 0 200 200"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M37.9,-48.2C51.1,-34.3,65.2,-24,69.2,-10.2C73.2,3.6,67.1,20.9,56.6,33.5C46.1,46.1,31.1,54,14.1,61.5C-2.9,69,-21.9,76,-35.5,70.1C-49.1,64.2,-57.3,45.4,-63.3,26.8C-69.3,8.2,-73,-10.2,-67.8,-26.1C-62.5,-42,-48.3,-55.4,-33.1,-68.5C-17.9,-81.6,-1.7,-94.4,10.5,-87.9C22.7,-81.4,24.8,-62.1,37.9,-48.2Z"
+                      transform="translate(100 100)"
+                    />
+                  </svg>
+                  <div class="relative z-10 w-48 h-48">
+                    <svg
+                      class="w-full h-full text-white"
+                      viewBox="0 0 100 100"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path fill="currentColor" d="M50,15 L85,85 L15,85 Z" />
+                      <circle cx="50" cy="45" r="10" fill="currentColor" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="mt-4 grid grid-cols-4 gap-2">
+                  <div
+                    class="rounded bg-neutral p-2 cursor-pointer hover:bg-primary hover:bg-opacity-10 transition-colors"
+                  >
+                    <div class="aspect-square flex items-center justify-center">
+                      <svg
+                        class="w-full h-full text-primary"
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path fill="currentColor" d="M50,15 L85,85 L15,85 Z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    class="rounded bg-neutral p-2 cursor-pointer hover:bg-primary hover:bg-opacity-10 transition-colors"
+                  >
+                    <div class="aspect-square flex items-center justify-center">
+                      <svg
+                        class="w-full h-full text-primary"
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle cx="50" cy="50" r="35" fill="currentColor" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    class="rounded bg-neutral p-2 cursor-pointer hover:bg-primary hover:bg-opacity-10 transition-colors"
+                  >
+                    <div class="aspect-square flex items-center justify-center">
+                      <svg
+                        class="w-full h-full text-primary"
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          x="15"
+                          y="15"
+                          width="70"
+                          height="70"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    class="rounded bg-neutral p-2 cursor-pointer hover:bg-primary hover:bg-opacity-10 transition-colors"
+                  >
+                    <div class="aspect-square flex items-center justify-center">
+                      <svg
+                        class="w-full h-full text-primary"
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <polygon
+                          points="50,15 85,85 15,85"
+                          fill="currentColor"
+                        />
+                        <circle cx="50" cy="45" r="10" fill="white" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Details -->
+              <div class="lg:w-1/2">
+                <div class="flex justify-between items-start">
+                  <h1 class="text-3xl font-bold">Geometric Fox</h1>
+                  <span
+                    class="difficulty-badge bg-green-100 text-green-600 px-3 py-1 rounded-full border border-green-200"
+                    >Beginner</span
+                  >
+                </div>
+
+                <p class="text-gray-600 mt-2">
+                  A simple yet elegant fox design with clean geometric lines.
+                  Perfect for beginners and a great decoration for any desk or
+                  shelf.
+                </p>
+
+                <div class="mt-6 grid grid-cols-2 gap-4">
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">Dimensions</span>
+                    <p class="font-medium">15 x 10 x 12 cm</p>
+                  </div>
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">Assembly Time</span>
+                    <p class="font-medium">15 minutes</p>
+                  </div>
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">Paper Type</span>
+                    <p class="font-medium">160-200 gsm</p>
+                  </div>
+                  <div class="bg-neutral rounded-lg p-3">
+                    <span class="text-sm text-gray-500">Pages</span>
+                    <p class="font-medium">2 sheets</p>
+                  </div>
+                </div>
+
+                <div class="mt-6">
+                  <button
+                    class="w-full bg-primary hover:bg-pink-400 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-5 h-5 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                      ></path>
+                    </svg>
+                    Download PDF Template
+                  </button>
+
+                  <div class="flex mt-3 space-x-3">
+                    <button
+                      class="flex-1 border border-gray-200 hover:bg-neutral font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-5 h-5 mr-2 text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        ></path>
+                      </svg>
+                      Save
+                    </button>
+                    <button
+                      class="flex-1 border border-gray-200 hover:bg-neutral font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-5 h-5 mr-2 text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                        ></path>
+                      </svg>
+                      Share
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Assembly Instructions -->
+            <div class="mt-10">
+              <h2 class="text-2xl font-bold mb-4">Assembly Instructions</h2>
+
+              <div class="bg-neutral rounded-lg p-6">
+                <ol class="space-y-6">
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold"
+                    >
+                      1
+                    </div>
+                    <div class="ml-4">
+                      <h3 class="font-bold">Print the template</h3>
+                      <p class="text-gray-600 mt-1">
+                        Print the template on cardstock paper (160-200 gsm).
+                        Regular printer paper will work but the model will be
+                        less sturdy.
+                      </p>
+                    </div>
+                  </li>
+
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold"
+                    >
+                      2
+                    </div>
+                    <div class="ml-4">
+                      <h3 class="font-bold">Cut along solid lines</h3>
+                      <p class="text-gray-600 mt-1">
+                        Using scissors or a craft knife, carefully cut along all
+                        solid lines of the template.
+                      </p>
+                    </div>
+                  </li>
+
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold"
+                    >
+                      3
+                    </div>
+                    <div class="ml-4">
+                      <h3 class="font-bold">Score along dotted lines</h3>
+                      <p class="text-gray-600 mt-1">
+                        Using a ruler and the back of a craft knife (or a
+                        scoring tool), score along all dotted lines to make
+                        folding easier and cleaner.
+                      </p>
+                    </div>
+                  </li>
+
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold"
+                    >
+                      4
+                    </div>
+                    <div class="ml-4">
+                      <h3 class="font-bold">Fold along scored lines</h3>
+                      <p class="text-gray-600 mt-1">
+                        Fold all scored lines, making sure to create sharp
+                        creases. Mountain folds go up, valley folds go down.
+                      </p>
+                    </div>
+                  </li>
+
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold"
+                    >
+                      5
+                    </div>
+                    <div class="ml-4">
+                      <h3 class="font-bold">Apply glue to tabs</h3>
+                      <p class="text-gray-600 mt-1">
+                        Apply a small amount of glue to each tab. We recommend
+                        using a glue stick or craft glue.
+                      </p>
+                    </div>
+                  </li>
+
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold"
+                    >
+                      6
+                    </div>
+                    <div class="ml-4">
+                      <h3 class="font-bold">Assemble the model</h3>
+                      <p class="text-gray-600 mt-1">
+                        Start by attaching the head pieces, then work your way
+                        down to the body. Hold each piece in place for a few
+                        seconds until the glue sets.
+                      </p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Related Models -->
+            <div class="mt-10">
+              <h2 class="text-2xl font-bold mb-4">You might also like</h2>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="card paper-texture rounded-lg overflow-hidden">
+                  <div class="h-32 bg-neutral relative overflow-hidden">
+                    <svg
+                      class="absolute inset-0 w-full h-full text-secondary"
+                      viewBox="0 0 200 200"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M47.7,-57.2C59.5,-45.8,65.8,-28.6,68.2,-11.1C70.6,6.4,69.1,24.2,60.3,37.3C51.6,50.3,35.6,58.6,18.9,63.3C2.2,68,-15.2,69.1,-31.8,64C-48.5,58.8,-64.3,47.4,-71.1,31.7C-77.9,16,-75.7,-4,-67.8,-20.8C-59.8,-37.6,-46.1,-51.1,-31.5,-61.5C-16.9,-71.9,-1.4,-79.2,13.2,-76.3C27.8,-73.4,35.9,-68.5,47.7,-57.2Z"
+                        transform="translate(100 100)"
+                      />
+                    </svg>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-16 h-16 text-white"
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle cx="50" cy="50" r="30" fill="currentColor" />
+                        <circle cx="35" cy="40" r="5" fill="#90cdf4" />
+                        <circle cx="65" cy="40" r="5" fill="#90cdf4" />
+                        <path
+                          d="M35,60 Q50,70 65,60"
+                          stroke="#90cdf4"
+                          stroke-width="3"
+                          fill="none"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="p-3">
+                    <h3 class="font-bold">Geometric Wolf</h3>
+                    <div class="flex justify-between items-center mt-1">
+                      <span class="text-xs bg-neutral rounded-full px-2 py-0.5"
+                        >Animals</span
+                      >
+                      <span class="text-xs text-green-600">Beginner</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card paper-texture rounded-lg overflow-hidden">
+                  <div class="h-32 bg-neutral relative overflow-hidden">
+                    <svg
+                      class="absolute inset-0 w-full h-full text-accent"
+                      viewBox="0 0 200 200"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M39.2,-46.1C52.9,-39.2,67.5,-30.5,71.5,-18.4C75.4,-6.3,68.8,9.2,60.2,21.5C51.7,33.8,41.2,42.9,29.3,51.5C17.5,60.1,4.4,68.1,-8.6,68.7C-21.6,69.3,-34.5,62.4,-45.5,52.4C-56.5,42.3,-65.5,29.1,-69.8,14C-74.1,-1.1,-73.7,-18.1,-65.8,-30.4C-57.9,-42.7,-42.5,-50.3,-28.5,-57.1C-14.5,-63.9,-1.8,-69.9,9.5,-67.7C20.8,-65.5,25.5,-53,39.2,-46.1Z"
+                        transform="translate(100 100)"
+                      />
+                    </svg>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-16 h-16 text-white"
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M30,30 L70,30 L70,70 L30,70 Z"
+                        />
+                        <circle cx="40" cy="40" r="5" fill="#fbd38d" />
+                        <circle cx="60" cy="40" r="5" fill="#fbd38d" />
+                        <rect
+                          x="40"
+                          y="50"
+                          width="20"
+                          height="5"
+                          fill="#fbd38d"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="p-3">
+                    <h3 class="font-bold">Cube Cat</h3>
+                    <div class="flex justify-between items-center mt-1">
+                      <span class="text-xs bg-neutral rounded-full px-2 py-0.5"
+                        >Animals</span
+                      >
+                      <span class="text-xs text-green-600">Beginner</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card paper-texture rounded-lg overflow-hidden">
+                  <div class="h-32 bg-neutral relative overflow-hidden">
+                    <svg
+                      class="absolute inset-0 w-full h-full text-primary"
+                      viewBox="0 0 200 200"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M45.3,-51.2C59.4,-41.7,71.7,-28.5,76.3,-12.7C80.9,3.2,77.8,21.7,68.1,35.8C58.4,49.9,42.2,59.5,25.3,65.5C8.4,71.4,-9.1,73.7,-24.8,68.9C-40.5,64.2,-54.3,52.4,-62.9,37.5C-71.5,22.6,-74.8,4.6,-71.2,-11.8C-67.6,-28.2,-57.1,-43,-43.6,-52.6C-30.1,-62.2,-13.6,-66.6,1.2,-68C16,-69.4,31.2,-60.7,45.3,-51.2Z"
+                        transform="translate(100 100)"
+                      />
+                    </svg>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-16 h-16 text-white"
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <polygon
+                          points="50,20 80,60 20,60"
+                          fill="currentColor"
+                        />
+                        <polygon
+                          points="20,60 80,60 50,80"
+                          fill="currentColor"
+                        />
+                        <circle cx="50" cy="40" r="5" fill="#f8b4d9" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="p-3">
+                    <h3 class="font-bold">Origami Bird</h3>
+                    <div class="flex justify-between items-center mt-1">
+                      <span class="text-xs bg-neutral rounded-full px-2 py-0.5"
+                        >Animals</span
+                      >
+                      <span class="text-xs text-green-600">Beginner</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
 
     <footer class="bg-dark text-white mt-16">
-        <div class="container mx-auto px-4 py-10">
-            <div class="flex flex-col md:flex-row justify-between">
-                <div class="mb-8 md:mb-0">
-                    <div class="flex items-center space-x-2">
-                        <svg class="scissors-icon w-8 h-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z" />
-                        </svg>
-                        <h1 class="text-2xl font-bold flex items-center">
-                            Paper<span class="text-primary">Wonder</span>
-                            <span class="font-handwritten text-accent ml-1">Crafts</span>
-                        </h1>
-                    </div>
-                    <p class="mt-4 text-gray-400 max-w-md">Discover the joy of papercraft with our collection of beautiful, downloadable templates for all skill levels.</p>
-                </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
-                    <div>
-                        <h3 class="font-bold text-lg mb-4">Explore</h3>
-                        <ul class="space-y-2">
-                            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">New Arrivals</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Popular</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Categories</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Difficulty Levels</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h3 class="font-bold text-lg mb-4">About</h3>
-                        <ul class="space-y-2">
-                            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Our Story</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Designers</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Blog</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Contact</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h3 class="font-bold text-lg mb-4">Connect</h3>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
-                                </svg>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"></path>
-                                </svg>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
-                                </svg>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="mt-6">
-                            <h4 class="font-medium mb-2">Subscribe to our newsletter</h4>
-                            <div class="flex">
-                                <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg w-full focus:outline-none text-dark">
-                                <button class="bg-primary hover:bg-pink-400 text-white px-4 py-2 rounded-r-lg transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="container mx-auto px-4 py-10">
+        <div class="flex flex-col md:flex-row justify-between">
+          <div class="mb-8 md:mb-0">
+            <div class="flex items-center space-x-2">
+              <svg
+                class="scissors-icon w-8 h-8 text-primary"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"
+                />
+              </svg>
+              <h1 class="text-2xl font-bold flex items-center">
+                Paper<span class="text-primary">Wonder</span>
+                <span class="font-handwritten text-accent ml-1">Crafts</span>
+              </h1>
             </div>
-            
-            <div class="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm">© 2023 PaperWonder. All rights reserved.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">Terms of Service</a>
-                    <a href="#" class="text-gray-400 hover:text-primary text-sm transition-colors">Cookie Policy</a>
-                </div>
+            <p class="mt-4 text-gray-400 max-w-md">
+              Discover the joy of papercraft with our collection of beautiful,
+              downloadable templates for all skill levels.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div>
+              <h3 class="font-bold text-lg mb-4">Explore</h3>
+              <ul class="space-y-2">
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-primary transition-colors"
+                    >New Arrivals</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-primary transition-colors"
+                    >Popular</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-primary transition-colors"
+                    >Categories</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-primary transition-colors"
+                    >Difficulty Levels</a
+                  >
+                </li>
+              </ul>
             </div>
+
+            <div>
+              <h3 class="font-bold text-lg mb-4">About</h3>
+              <ul class="space-y-2">
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-primary transition-colors"
+                    >Our Story</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-primary transition-colors"
+                    >Designers</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-primary transition-colors"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-primary transition-colors"
+                    >Contact</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-lg mb-4">Connect</h3>
+              <div class="flex space-x-4">
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                >
+                  <svg
+                    class="w-6 h-6"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                    ></path>
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                >
+                  <svg
+                    class="w-6 h-6"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+                    ></path>
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                >
+                  <svg
+                    class="w-6 h-6"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+                    ></path>
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-primary transition-colors"
+                >
+                  <svg
+                    class="w-6 h-6"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                    ></path>
+                  </svg>
+                </a>
+              </div>
+              <div class="mt-6">
+                <h4 class="font-medium mb-2">Subscribe to our newsletter</h4>
+                <div class="flex">
+                  <input
+                    type="email"
+                    placeholder="Your email"
+                    class="px-4 py-2 rounded-l-lg w-full focus:outline-none text-dark"
+                  />
+                  <button
+                    class="bg-primary hover:bg-pink-400 text-white px-4 py-2 rounded-r-lg transition-colors"
+                  >
+                    <svg
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div
+          class="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm">
+            © 2023 PaperWonder. All rights reserved.
+          </p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+            <a
+              href="#"
+              class="text-gray-400 hover:text-primary text-sm transition-colors"
+              >Privacy Policy</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 hover:text-primary text-sm transition-colors"
+              >Terms of Service</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 hover:text-primary text-sm transition-colors"
+              >Cookie Policy</a
+            >
+          </div>
+        </div>
+      </div>
     </footer>
 
     <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-        
-        // Page navigation
-        const homepage = document.getElementById('homepage');
-        const detailPage = document.getElementById('detailPage');
-        
-        function showDetailPage() {
-            homepage.classList.add('hidden');
-            detailPage.classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
-        
-        function showHomepage() {
-            homepage.classList.remove('hidden');
-            detailPage.classList.add('hidden');
-            window.scrollTo(0, 0);
-        }
+      // Mobile menu toggle
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Page navigation
+      const homepage = document.getElementById("homepage");
+      const detailPage = document.getElementById("detailPage");
+
+      function showDetailPage() {
+        homepage.classList.add("hidden");
+        detailPage.classList.remove("hidden");
+        window.scrollTo(0, 0);
+      }
+
+      function showHomepage() {
+        homepage.classList.remove("hidden");
+        detailPage.classList.add("hidden");
+        window.scrollTo(0, 0);
+      }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9669a877476ff894',t:'MTc1Mzc2MTA4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  </body>
 </html>
